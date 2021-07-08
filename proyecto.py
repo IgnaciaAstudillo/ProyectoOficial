@@ -74,3 +74,6 @@ comuna = input("Ingrese la comuna que desea buscar: ")
 
 while not ((comuna.lower() in comunas) or (comuna in comunascod)):              #verificar si la región está en la lista de regiones
     comuna = input("ERROR, ingrese comuna nuevamene: ")                         # o lista de códigos de regiones
+
+#comentarios hola a todos ajdhakjdhakdahd
+#   

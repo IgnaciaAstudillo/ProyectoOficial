@@ -1,6 +1,6 @@
 #buscar regiones, regiones cod, comunas, comunas cod.
 
-archivo = open("C:\\Users\eddie\OneDrive\Documentos\Archivos.txt\CasosPorComuna.csv.txt", "r")
+archivo = open("C:\\Users\eddie\OneDrive\Documentos\Archivos.txt\CasosActivosPorComuna.csv", "r")
 
 lineas = archivo.readlines() #lee cada linea y las almacena en una lista, cada elemento de la lista es una linea
 #print(lineas)
@@ -76,4 +76,55 @@ while not ((comuna.lower() in comunas) or (comuna in comunascod)):              
     comuna = input("ERROR, ingrese comuna nuevamene: ")                         # o lista de códigos de regiones
 
 #comentarios hola a todos ajdhakjdhakdahd
-#   
+
+'''
+archivo = open("C:\\Users\eddie\OneDrive\Documentos\Archivos.txt\CasosPorComuna.csv", "r")
+
+linea1 = archivo.readline() #lee primera linea
+linea1 = linea1.strip()     #quita el salto de linea de la primera linea
+linea1 = linea1.split(",")  #transforma cada elemento de primera linea separado por una coma, en un elemento de la lista
+
+
+lineas = archivo.readlines() #lee cada linea y las almacena en una lista, cada elemento de la lista es una linea
+#print(lineas)
+
+region = input("ingrese la región que desea buscar: ")
+fecha = input("ingrese una fecha: ")
+
+print(linea1)
+
+#ciclo que recorre cada elemento de la lista lineas
+for linea in lineas:
+    linea = linea.strip("\n")           #borramos el salto de linea      
+                                        #imprimimos la linea
+
+    listalinea = linea.split(",")       #guardamos cada elemento de la linea en una lista
+    print(listalinea)                   #imprimimos la lista que corresponde a toda una linea con sus elementos separados
+
+    if listalinea[0].lower() == region.lower():     #si la región (que está en la posición 0) es igual a la que ingresó el usuario
+        print("está")                               #imprimir "está"
+
+        for indiceFecha in range (len(linea1)):          #ciclo for que recorre cada elemento de la linea 1
+            print(indiceFecha)
+
+            if linea1[indiceFecha] == fecha:             #si el elemento de la lista linea 1(fecha) es igual a la fecha indicada por el usuario
+
+                print(fecha)
+                print(linea1[indiceFecha])
+                print(indiceFecha) 
+
+                for indiceRegion in range(len(listalinea)):
+                    print(indiceRegion)
+                    print(listalinea[indiceRegion])
+                    print("")
+
+                    if indiceRegion == indiceFecha:
+                        print(indiceFecha)
+                        print(linea1[indiceFecha])
+                        print(indiceRegion)
+                        print(listalinea[indiceRegion])
+                        print("")
+
+   
+archivo.close()
+'''

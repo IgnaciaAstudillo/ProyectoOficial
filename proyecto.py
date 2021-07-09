@@ -88,9 +88,9 @@ linea1 = linea1.split(",")  #transforma cada elemento de primera linea separado 
 lineas = archivo.readlines() #lee cada linea y las almacena en una lista, cada elemento de la lista es una linea
 #print(lineas)
 
-region = input("ingrese la región que desea buscar: ")
+comuna = input("ingrese la comuna que desea buscar: ")
 fecha = input("ingrese una fecha: ")
-
+contagiados = 0
 print(linea1)
 
 #ciclo que recorre cada elemento de la lista lineas
@@ -101,30 +101,28 @@ for linea in lineas:
     listalinea = linea.split(",")       #guardamos cada elemento de la linea en una lista
     print(listalinea)                   #imprimimos la lista que corresponde a toda una linea con sus elementos separados
 
-    if listalinea[0].lower() == region.lower():     #si la región (que está en la posición 0) es igual a la que ingresó el usuario
-        print("está")                               #imprimir "está"
+    for elemento in range (len(listalinea)): #se recorre cada elemento de la linea actual
 
-        for indiceFecha in range (len(linea1)):          #ciclo for que recorre cada elemento de la linea 1
-            print(indiceFecha)
+        if listalinea[elemento].lower() == comuna.lower(): #si el elemento actual es igual a la comuna ingresada por el usuario
+            print(listalinea[elemento])                    #imprimir comuna
 
-            if linea1[indiceFecha] == fecha:             #si el elemento de la lista linea 1(fecha) es igual a la fecha indicada por el usuario
+##################################################
 
-                print(fecha)
-                print(linea1[indiceFecha])
-                print(indiceFecha) 
+            for buscar in range (len(linea1)):              #ciclo for que empiece a recorrer todas los elementos(fechas) de la primera linea
+                
+                if linea1[buscar] == fecha:                 #si la fecha que ingreso el usuario coincide con alguna de la lista
+                    
+                    for contag in range (len(listalinea)):
+                        
+                        if contag == buscar:
+                            #print("")
+                            #print(listalinea[contag])
+                            #print("")
 
-                for indiceRegion in range(len(listalinea)):
-                    print(indiceRegion)
-                    print(listalinea[indiceRegion])
-                    print("")
+                            contagiados = listalinea[contag]
+                            
+if contagiados == "":
+    contagiados = 0
 
-                    if indiceRegion == indiceFecha:
-                        print(indiceFecha)
-                        print(linea1[indiceFecha])
-                        print(indiceRegion)
-                        print(listalinea[indiceRegion])
-                        print("")
-
-   
-archivo.close()
+print("La cantidad de contagiados en la comuna de", comuna, "para la fecha", fecha, "es: ", contagiados)
 '''

@@ -101,3 +101,45 @@ if contagiados == "":   #si el número de contagiados es vacío
     contagiados = 0     #reemplazar por un 0
 
 print("La cantidad de casos activos en la comuna de", comuna.upper(), "para la fecha", fecha, "es: ", contagiados) #verificación de datos por pantalla
+
+###################################################################################################
+############    BUSCAR  MAYOR  Y  MENOR  DENSIDAD  DE  CONTAGIADOS  POR  FECHA  ###################
+###################################################################################################
+
+MayorDensidad = 0           #definimos variables
+MenorDensidad = 9000000     #en este caso pusimos 9 millones, debido a que la región con más habitantes en chile no supera esa cifra.
+RegionMayor = ""
+RegionMenor = ""
+
+for linea in lineas:
+    linea = linea.strip("\n")           #borramos el salto de linea      
+
+    listalinea = linea.split(",")       #guardamos cada elemento de la linea en una lista
+
+    for elemento in range (len(listalinea)): #se recorre cada elemento de la linea actual
+
+        if listalinea[elemento] == "Total":     #Esto es para encontrar el total de cada región
+            print(listalinea[elemento])
+
+            for buscar in range (len(linea1)):              #ciclo for que empiece a recorrer todas los elementos(fechas) de la primera linea
+                
+                if linea1[buscar] == fecha:                 #si la fecha que ingreso el usuario coincide con alguna de la lista
+                    
+                    for dens in range (len(listalinea)):    #ciclo for que recorre toda la linea actual
+                        
+                        if dens == buscar:                      #si el índice es igual al índice de la fecha encontrada
+                            densidad = float(listalinea[dens])      #guardamos en la variable densidad el número correspondiente
+                            print(densidad)
+
+                            if densidad > MayorDensidad:            #si el número actual es superior al guardado en la variable densidad     
+                                MayorDensidad = densidad                #Almacenamos este número MAYOR
+                                RegionMayor = listalinea[elemento - 2]  #Almacenamos el nombre de la región correspondiente a este total de densidad
+
+
+                            if densidad < int(MenorDensidad):       #si el número actual es inferior al guardado en la variable densidad
+                                MenorDensidad = densidad                #Almacenamos este número MENOR
+                                RegionMenor = listalinea[elemento -2]   #Almacenamos el nombre de la región correspondiente a este total de densidad
+                            
+
+print("La mayor densidad en la región de", RegionMayor, "es de: ", MayorDensidad)
+print("La menor densidad en la región de", RegionMenor, "es de: ", MenorDensidad)

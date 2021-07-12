@@ -6,10 +6,10 @@ linea1 = linea1.split(",")  #transforma cada elemento de primera linea separado 
 
 lineas = archivo.readlines() #lee cada linea y las almacena en una lista, cada elemento de la lista es una linea
 
-regiones = []           
-regionescod = []        #Listas donde se almacenarán#
-comunas = []             #comunas y códigos de comunas#
-comunascod = []         #para posterior verificación#
+regiones = []
+regionescod = []
+comunas = []
+comunascod = []
 
 #ciclo que recorre cada elemento de la lista lineas
 for linea in lineas:
@@ -29,11 +29,11 @@ for linea in lineas:
         
         if elemento == 3:                                                           #si el indice es igual a 3
             comunascod.append(listalinea[elemento])                                 #añadir a lista de código de regiones
-        
-#print(regiones, "\n")          
-#print(regionescod, "\n")   
-#print(comunas, "\n")           
-#print(comunascod, "\n")    
+
+print("----------------------------Regiones------------------------------")   
+print(regiones, "\n")
+print("-----------------------Códigos de Regiones------------------------")
+print(regionescod, "\n")
 
 archivo.close()
 
@@ -42,6 +42,7 @@ archivo.close()
 print("----------------------------Bienvenido----------------------------")
 
 print("""------------------------------------------------------------------
+
 15. Región de Arica y Parinacota
 01. Región de Tarapacá
 02. Región de Antofagasta
@@ -58,7 +59,10 @@ print("""------------------------------------------------------------------
 10. Región de Los Lagos
 11. Región de Aysen
 12. Región de Magallanes y la Antartica
+
 ------------------------------------------------------------------
+------------------------------------------------------------------
+
 """)
 
 comuna = input("Ingrese la comuna que desea buscar: ")                          
@@ -71,7 +75,10 @@ fecha = input("Ingrese una fecha: ")
 while not fecha in linea1:                                                      #verificar si la fecha está en la lista de fechas
     fecha = input("ERROR, ingrese una fecha válida: ")                         
 
-contagiados = 0
+contagiadosdía = 0
+TotalContagiadosDía = 0
+GuardarRegión = ""
+
 
 for linea in lineas:
     linea = linea.strip("\n")           #borramos el salto de linea      
@@ -81,9 +88,8 @@ for linea in lineas:
     for elemento in range (len(listalinea)): #se recorre cada elemento de la linea actual
 
         if listalinea[elemento].lower() == comuna.lower(): #si el elemento actual es igual a la comuna ingresada por el usuario
-            #print(listalinea[elemento])                    #imprimir comuna
-
-##############################################################################################################################################################3
+            
+            GuardarComuna = listalinea[elemento]            # Almacenamos el nombre de la comuna en una variable
 
             for buscar in range (len(linea1)):              #ciclo for que empiece a recorrer todas los elementos(fechas) de la primera linea
                 
@@ -92,78 +98,136 @@ for linea in lineas:
                     for contag in range (len(listalinea)):  #ciclo for que recorre nuevamente la linea en que se encuentra, ahora
                                                             #con el objetivo de buscar los contagiados
                         if contag == buscar:                    #si el indice del contagiado es igual al indice de la fecha en nuestra lista linea1
-                            contagiados = listalinea[contag]    #guardamos la cantidad de contagiados en nuestra variable del mismo nombre.   
-                            
-if contagiados == "":   #si el número de contagiados es vacío
-    contagiados = 0     #reemplazar por un 0
+                            contagiadosdía = listalinea[contag]    #guardamos la cantidad de contagiados en nuestra variable del mismo nombre. 
 
-print("La cantidad de casos activos en la comuna de", comuna.upper(), "para la fecha", fecha, "es: ", contagiados) #verificación de datos por pantalla
+            GuardarRegión = listalinea[elemento - elemento]
+
+    for elemento in range (len(listalinea)):                #Este ciclo es para encontrar el total de contagiados de una fecha especifica de la región en 
+                                                            #la que se encuentra la comuna que ingresó el usuario
+
+        if listalinea[elemento] == GuardarRegión and listalinea[elemento + 2] == "Total":
+
+            for buscar in range (len(linea1)):
+
+                if linea1[buscar] == fecha:                 #si la fecha de la lista coincide con la que ingresó el usuario
+
+                    for TotalContag in range (len(listalinea)):
+
+                        if TotalContag == buscar:
+                            TotalContagiadosDía = listalinea[TotalContag]
+                            
+if contagiadosdía == "":   #si el número de contagiados es vacío
+    contagiadosdía = 0     #reemplazar por un 0
+
+print("")
+print("La cantidad de contagiados en la comuna de", comuna, "para la fecha", fecha, "es: ", contagiadosdía) #verificación de datos por pantalla
+print("La cantidad de contagiados en la región de", GuardarRegión, "para la fecha", fecha, "es: ", TotalContagiadosDía)
 
 ###################################################################################################
 ############    BUSCAR  MAYOR  Y  MENOR  DENSIDAD  DE  CONTAGIADOS  POR  FECHA  ###################
 ###################################################################################################
 
+fechas = []
 MayorDensidad = 0           #definimos variables
-MenorDensidad = 9000000     #en este caso pusimos 9 millones, debido a que la región con más habitantes en chile no supera esa cifra.
+MenorDensidad = 9000000     #en este caso pusimos 9 millones, debido a que la región con más habitantes en chile no supera esa cifra y de esta manera podemos cumplir la condición en la que lo utilizaremos.
 RegionMayor = ""
 RegionMenor = ""
+densidad = 0
+Población = 0
+acumulados = 0
+AcumuladosMayor = 0
+AcumuladosMenor = 0
+
+
+for dates in range (6, len(linea1)):        
+    fechas.append(linea1[dates])
 
 for linea in lineas:
     linea = linea.strip("\n")           #borramos el salto de linea      
 
     listalinea = linea.split(",")       #guardamos cada elemento de la linea en una lista
 
-    for elemento in range (len(listalinea)): #se recorre cada elemento de la linea actual
-
+    for elemento in range (len(listalinea)): #se recorre cada elemento de la linea actual    
+        
         if listalinea[elemento] == "Total":     #Esto es para encontrar el total de cada región
-            print(listalinea[elemento])
+            #print(listalinea[elemento])
+            acumulados = 0
+            densidad = 0
 
-            for buscar in range (len(linea1)):              #ciclo for que empiece a recorrer todas los elementos(fechas) de la primera linea
-                
-                if linea1[buscar] == fecha:                 #si la fecha que ingreso el usuario coincide con alguna de la lista
-                    
-                    for dens in range (len(listalinea)):    #ciclo for que recorre toda la linea actual
-                        
-                        if dens == buscar:                      #si el índice es igual al índice de la fecha encontrada
-                            densidad = float(listalinea[dens])      #guardamos en la variable densidad el número correspondiente
-                            print(densidad)
+            for casosact in range (6, len(listalinea)):             #ciclo for que suma todos los casos activos por día           
+                #print(listalinea[casosact])
+                acumulados = acumulados + float(listalinea[casosact])
 
-                            if densidad > MayorDensidad:            #si el número actual es superior al guardado en la variable densidad     
-                                MayorDensidad = densidad                #Almacenamos este número MAYOR
-                                RegionMayor = listalinea[elemento - 2]  #Almacenamos el nombre de la región correspondiente a este total de densidad
+            Población = float(listalinea[elemento - elemento + 4])
+            densidad = acumulados / Población
 
+            if densidad > MayorDensidad:            #si el número actual es superior al guardado en la variable densidad     
+                MayorDensidad = densidad                #Almacenamos este número MAYOR
+                RegionMayor = listalinea[elemento - elemento]  #Almacenamos el nombre de la región correspondiente a este total de densidad
+                PoblacionMayor = float(listalinea[elemento - elemento + 4])      
+                AcumuladosMayor = acumulados       
 
-                            if densidad < int(MenorDensidad):       #si el número actual es inferior al guardado en la variable densidad
-                                MenorDensidad = densidad                #Almacenamos este número MENOR
-                                RegionMenor = listalinea[elemento -2]   #Almacenamos el nombre de la región correspondiente a este total de densidad
-                            
+            if densidad < (MenorDensidad):       #si el número actual es inferior al guardado en la variable densidad //en la primera iteración la variable MenorDensidad vale 9000000 
+                MenorDensidad = densidad              #Almacenamos este número MENOR
+                RegionMenor = listalinea[elemento - elemento] 
+                PoblaciónMenor = float(listalinea[elemento - elemento + 4])
+                AcumuladosMenor = acumulados
 
-print("La mayor densidad en la región de", RegionMayor, "es de: ", MayorDensidad)
-print("La menor densidad en la región de", RegionMenor, "es de: ", MenorDensidad)
-<<<<<<< HEAD
+print("")
+print("La región de", RegionMayor, "cuanta con", PoblacionMayor, "habitantes y tiene", AcumuladosMayor, "casos activos acumulados.")
+print("La región de", RegionMenor, "cuenta con", PoblaciónMenor, "habitantes y tiene", AcumuladosMenor, "casos activos acumulados.")
+
+print("")                     
+print("La mayor densidad de tasa de contagio es en la región de", RegionMayor, "y corresponde a: ", MayorDensidad)
+print("La menor densidad de tasa de contagio es en la región de", RegionMenor, "y corresponde a: ", MenorDensidad)
+
 
 import matplotlib.pyplot as plt
-'''
-x = [1, 2, 3, 4, 5]
-y = [1, 4, 9, 16, 25]
 
-plt.plot(x, y)
-plt.show()
-'''
-contagiados = float(contagiados)
-#contagiados = contagiados.split()
-print(contagiados)
+#contagiados por fecha de una comuna ingresada del usuario
 
-x = [fecha]
-y = [contagiados]
+contagiadosdía = float(contagiadosdía)
+TotalContagiadosDía = float(TotalContagiadosDía)
 
+x = [GuardarRegión, GuardarComuna]
+y = [TotalContagiadosDía, contagiadosdía]
+
+plt.title("region")
+plt.title(fecha)
 plt.bar(x, y)
+plt.xlabel("Región v/s Comuna")
+plt.ylabel("Casos Activos")
 plt.show()
 
-############################################################################################
+#Gráfico de Mayor densidad /// 
+#Se muestra la densidad como los casos activos acumulados v/s la población no contagiada, la suma es la población total
+
+PoblacionNoContagiada = PoblacionMayor - AcumuladosMayor
+
+exp_vals = [PoblacionNoContagiada, AcumuladosMayor]
+exp_labels = ["Población no contagiada", "Casos activos acumulados"]
+
+plt.xlabel("MAYOR DENSIDAD DE TASA DE CONTAGIO")
+plt.title(RegionMayor)
+plt.pie(exp_vals, labels=exp_labels)
+plt.show()
+
+#Gráfico menor densidad
+
+PoblacionNoContagiada2 = PoblaciónMenor - AcumuladosMenor
+
+exp_vals2 = [PoblacionNoContagiada2, AcumuladosMenor]
+exp_labels2 = ["Población no contagiada", "Casos activos acumulados"]
+
+plt.xlabel("MENOR DENSIDAD DE TASA DE CONTAGIO")
+plt.title(RegionMenor)
+plt.pie(exp_vals2, labels=exp_labels2)
+plt.show()
+
+#Comparación Mayor y Menor tasa de contagio
 
 plt.xlabel("Regiones")
-plt.ylabel("Densidad en Millones")
+plt.ylabel("Densidad de Tasa de contagio")
 plt.title("Mayor y Menor densidad de tasa de contagio")
 
 xa = [RegionMayor, RegionMenor]
@@ -172,5 +236,3 @@ ya = [MayorDensidad, MenorDensidad]
 plt.bar(xa, ya)
 plt.show()
 
-=======
->>>>>>> 4985168e4942850e00e5c3d2ad7f99eca718a3e7

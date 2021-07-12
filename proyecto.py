@@ -84,7 +84,12 @@ if comuna.isnumeric():                                  #si se ingresó la comun
 fecha = input("Ingrese una fecha: ")                            
 
 while not fecha in linea1:                                                      #verificar si la fecha está en la lista de fechas
-    fecha = input("ERROR, ingrese una fecha válida: ")                         
+    fecha = input("ERROR, ingrese una fecha válida: ")  
+
+
+#####################################################################################################################
+################################# BUSCAR CONTAGIADOS PARA UNA FECHA ESPECÍFICA ######################################
+#####################################################################################################################
 
 contagiadosdía = 0
 TotalContagiadosDía = 0
@@ -134,9 +139,9 @@ print("")
 print("La cantidad de contagiados en la comuna de", comuna, "para la fecha", fecha, "es: ", contagiadosdía) #verificación de datos por pantalla
 print("La cantidad de contagiados en la región de", GuardarRegión, "para la fecha", fecha, "es: ", TotalContagiadosDía)
 
-###################################################################################################
-############    BUSCAR  MAYOR  Y  MENOR  DENSIDAD  DE  CONTAGIADOS  POR  FECHA  ###################
-###################################################################################################
+##################################################################################################################
+#######################    BUSCAR  MAYOR  Y  MENOR  DENSIDAD  DE  CONTAGIADOS  POR  FECHA  #######################
+##################################################################################################################
 
 fechas = []
 MayorDensidad = 0           #definimos variables

@@ -70,6 +70,17 @@ comuna = input("Ingrese la comuna que desea buscar: ")
 while not ((comuna.lower() in comunas) or (comuna in comunascod)):              #verificar si la región está en la lista de regiones
     comuna = input("ERROR, ingrese una comuna válida: ")                        # o lista de códigos de regiones
 
+if comuna.isnumeric():                                  #si se ingresó la comuna por código, cambiamos el código de la comuna por su nombre,
+                                                        #esto es para que en el gráfica salga por nombre
+    for indicecodigo in range (len(comunascod)):
+        if comunascod[indicecodigo] == comuna:
+
+            for indicecomuna in range (len(comunas)):
+                if indicecodigo == indicecomuna:
+
+                    comuna = comunas[indicecomuna]
+                
+
 fecha = input("Ingrese una fecha: ")                            
 
 while not fecha in linea1:                                                      #verificar si la fecha está en la lista de fechas

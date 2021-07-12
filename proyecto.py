@@ -230,9 +230,9 @@ plt.xlabel("Regiones")
 plt.ylabel("Densidad de Tasa de contagio")
 plt.title("Mayor y Menor densidad de tasa de contagio")
 
-xa = [RegionMayor, RegionMenor]
-ya = [MayorDensidad, MenorDensidad]
+RegionesX = [RegionMayor, RegionMenor]
+DensidadY = [MayorDensidad, MenorDensidad]
 
-plt.bar(xa, ya)
+plt.bar(RegionesX, DensidadY)
 plt.show()
 

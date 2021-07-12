@@ -140,6 +140,7 @@ for linea in lineas:
 
 print("La mayor densidad en la región de", RegionMayor, "es de: ", MayorDensidad)
 print("La menor densidad en la región de", RegionMenor, "es de: ", MenorDensidad)
+<<<<<<< HEAD
 
 import matplotlib.pyplot as plt
 '''
@@ -171,3 +172,5 @@ ya = [MayorDensidad, MenorDensidad]
 plt.bar(xa, ya)
 plt.show()
 
+=======
+>>>>>>> 4985168e4942850e00e5c3d2ad7f99eca718a3e7
